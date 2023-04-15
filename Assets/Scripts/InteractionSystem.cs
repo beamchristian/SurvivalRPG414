@@ -1,13 +1,16 @@
-using UnityEngine;
 using StarterAssets;
 using TMPro;
+using UnityEngine;
 
 public class InteractionSystem : MonoBehaviour
 {
     public float interactionDistance = 2.0f;
     public TextMeshProUGUI interactionText;
     private Camera _mainCamera;
+
     private Interactable _currentInteractable;
+    private InventoryInteract _currentInventoryInteract;
+    public GameObject inventoryUI;
 
     private void Start()
     {
@@ -22,12 +25,15 @@ public class InteractionSystem : MonoBehaviour
     private void OnEnable()
     {
         StarterAssetsInputs.InteractPressed += HandleInteraction;
+        StarterAssetsInputs.InventoryPressed += HandleInventoryInteraction;
     }
 
     private void OnDisable()
     {
         StarterAssetsInputs.InteractPressed -= HandleInteraction;
+        StarterAssetsInputs.InventoryPressed -= HandleInventoryInteraction;
     }
+
 
     private void UpdateCurrentInteractable()
     {
@@ -39,11 +45,21 @@ public class InteractionSystem : MonoBehaviour
         {
             Interactable interactable = hit.collider.GetComponent<Interactable>();
 
-            if (interactable != _currentInteractable)
+            // Check if the interactable component is enabled
+            if (interactable != null && interactable.enabled)
             {
-                _currentInteractable = interactable;
-                interactionText.text = _currentInteractable ? _currentInteractable.name + " [E]" : "";
-                interactionText.enabled = _currentInteractable != null;
+                if (interactable != _currentInteractable)
+                {
+                    _currentInteractable = interactable;
+                    interactionText.text = _currentInteractable ? _currentInteractable.itemName + " [E]" : "";
+                    interactionText.enabled = _currentInteractable != null;
+                }
+            }
+            else if (_currentInteractable != null)
+            {
+                _currentInteractable = null;
+                interactionText.text = "";
+                interactionText.enabled = false;
             }
         }
         else if (_currentInteractable != null)
@@ -61,4 +77,17 @@ public class InteractionSystem : MonoBehaviour
             _currentInteractable.Interact();
         }
     }
+
+    private void HandleInventoryInteraction()
+    {
+        if (_currentInteractable != null)
+        {
+            _currentInventoryInteract.InventoryInteractCall();
+        }
+    }
+}
+
+public abstract class InventoryInteract : MonoBehaviour
+{
+    public abstract void InventoryInteractCall();
 }
