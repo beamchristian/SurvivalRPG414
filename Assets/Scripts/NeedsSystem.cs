@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class NeedsSystem : MonoBehaviour
 {
@@ -16,6 +19,13 @@ public class NeedsSystem : MonoBehaviour
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float currentHealth;
 
+    public GameObject gameOverPanel;
+
+    private float gameOverDelay = 3f;
+    private float gameOverTimer;
+    private bool isGameOver = false;
+
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -25,6 +35,20 @@ public class NeedsSystem : MonoBehaviour
     {
         DecreaseNeeds(Time.deltaTime);
         UpdateHealth();
+
+        if (isGameOver)
+        {
+            gameOverTimer -= Time.deltaTime;
+            if (gameOverTimer <= 0)
+            {
+                RestartScene();
+            }
+        }
+    }
+
+    public bool IsDead()
+    {
+        return currentHealth <= 0;
     }
 
     private void DecreaseNeeds(float deltaTime)
@@ -38,6 +62,28 @@ public class NeedsSystem : MonoBehaviour
         fatigue = Mathf.Clamp(fatigue, 0f, 100f);
     }
 
+    public void ApplyDamage(float damage)
+    {
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+    }
+
+    void HandleDeath()
+    {
+        isGameOver = true;
+
+        // Show Game Over panel
+        gameOverPanel.SetActive(true);
+
+        // Set the timer to restart the scene after the delay
+        gameOverTimer = gameOverDelay;
+    }
+
+    void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     private void UpdateHealth()
     {
         float healthDecrease = 0f;
@@ -48,6 +94,11 @@ public class NeedsSystem : MonoBehaviour
 
         currentHealth -= healthDecrease * Time.deltaTime;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+        if (currentHealth <= 0 && !isGameOver)
+        {
+            HandleDeath();
+        }
     }
 
     public float GetHunger() { return hunger; }

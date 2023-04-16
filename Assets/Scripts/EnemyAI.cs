@@ -20,6 +20,8 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
     private State lastState;
     private float waitTimer;
+    private NeedsSystem playerNeedsSystem;
+
 
     [SerializeField] private List<Transform> patrolPoints;
     private int currentPatrolIndex = 0;
@@ -34,6 +36,7 @@ public class EnemyAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         currentState = State.Patrol;
         animator = GetComponentInChildren<Animator>();
+        playerNeedsSystem = player.GetComponent<NeedsSystem>();
 
         agent.speed = enemySpeed;
         attackTimer = timeBetweenAttacks;
@@ -60,7 +63,9 @@ public class EnemyAI : MonoBehaviour
                 }
                 break;
             case State.Chase:
+                Debug.Log("Entered Chase state");
                 Chase();
+                Debug.Log(agent.remainingDistance);
                 if (distanceToPlayer <= attackDistance)
                 {
                     currentState = State.Attack;
@@ -72,9 +77,13 @@ public class EnemyAI : MonoBehaviour
                 break;
             case State.Attack:
                 Attack();
-                if (distanceToPlayer > attackDistance)
+                if (distanceToPlayer > attackDistance && distanceToPlayer < fleeDistance)
                 {
                     currentState = State.Chase;
+                }
+                else if (distanceToPlayer >= fleeDistance)
+                {
+                    currentState = State.Flee;
                 }
                 break;
             case State.Flee:
@@ -131,26 +140,33 @@ public class EnemyAI : MonoBehaviour
 
     void Chase()
     {
+        // Rotate enemy to face player smoothly
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * enemySpeed);
         agent.SetDestination(player.position);
-        agent.isStopped = false;
-        animator.SetBool("isAttacking", false);
+
     }
+
 
     void Attack()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        // Rotate enemy to face player smoothly
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * enemySpeed);
 
         if (distanceToPlayer > attackStopDistance)
         {
             agent.SetDestination(player.position);
-            agent.isStopped = false;
-            animator.SetBool("isAttacking", false);
         }
         else
         {
             agent.SetDestination(transform.position);
-            agent.isStopped = true;
         }
+
+
 
         attackTimer += Time.deltaTime;
         if (attackTimer >= timeBetweenAttacks && distanceToPlayer <= attackDistance)
@@ -160,8 +176,10 @@ public class EnemyAI : MonoBehaviour
 
             // Implement logic to deal damage to the player
             Debug.Log("Enemy attacking!");
+            playerNeedsSystem.ApplyDamage(attackDamage);
         }
     }
+
 
 
     void Flee()
@@ -182,5 +200,11 @@ public class EnemyAI : MonoBehaviour
             currentState = State.Wait;
             waitTimer = 0f;
         }
+    }
+
+    public void OnAttackFinished()
+    {
+        agent.isStopped = false;
+        animator.SetBool("isAttacking", false);
     }
 }
