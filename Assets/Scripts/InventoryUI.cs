@@ -7,21 +7,8 @@ public class InventoryUI : MonoBehaviour
 {
     public Inventory inventory;
     public GameObject panel;
-    public TextMeshProUGUI uiText;
-
-    private void Start()
-    {
-        uiText = GetComponentInChildren<TextMeshProUGUI>();
-
-        if (uiText != null)
-        {
-            uiText.text = "";
-        }
-        else
-        {
-            Debug.LogError("TextMeshProUGUI component not found in children of InventoryUI GameObject.");
-        }
-    }
+    public GameObject inventorySlotPrefab;
+    public Transform inventorySlotContainer;
 
     private void OnEnable()
     {
@@ -50,22 +37,25 @@ public class InventoryUI : MonoBehaviour
 
     private void UpdateInventoryUI()
     {
-
-        uiText.text = "";
-
+        foreach (Transform child in inventorySlotContainer)
+        {
+            Destroy(child.gameObject);
+        }
 
         // Populate the UI with items from the inventory
         foreach (KeyValuePair<Item, int> entry in inventory.items)
-            {
-                Item item = entry.Key;
-                int itemQuantity = entry.Value;
+        {
+            Item item = entry.Key;
+            int itemQuantity = entry.Value;
 
-                // Add the item information to the UI text
-                uiText.text += $"{item.itemName}: {itemQuantity}\n";
-                Debug.Log(itemQuantity);
-                Debug.Log(item.itemName);
-            }
-        
+            // Instantiate the inventory slot prefab
+            GameObject slot = Instantiate(inventorySlotPrefab, inventorySlotContainer);
 
+            // Set the item icon and quantity text
+            Image icon = slot.GetComponentInChildren<Image>();
+            TextMeshProUGUI quantityText = slot.GetComponentInChildren<TextMeshProUGUI>();
+            icon.sprite = item.icon;
+            quantityText.text = itemQuantity.ToString();
+        }
     }
 }
