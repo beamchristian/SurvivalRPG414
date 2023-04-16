@@ -12,7 +12,15 @@ public class InventoryUI : MonoBehaviour
     private void Start()
     {
         uiText = GetComponentInChildren<TextMeshProUGUI>();
-        uiText.text = "";
+
+        if (uiText != null)
+        {
+            uiText.text = "";
+        }
+        else
+        {
+            Debug.LogError("TextMeshProUGUI component not found in children of InventoryUI GameObject.");
+        }
     }
 
     private void OnEnable()
@@ -42,10 +50,12 @@ public class InventoryUI : MonoBehaviour
 
     private void UpdateInventoryUI()
     {
- 
 
-            // Populate the UI with items from the inventory
-            foreach (KeyValuePair<Item, int> entry in inventory.items)
+        uiText.text = "";
+
+
+        // Populate the UI with items from the inventory
+        foreach (KeyValuePair<Item, int> entry in inventory.items)
             {
                 Item item = entry.Key;
                 int itemQuantity = entry.Value;
