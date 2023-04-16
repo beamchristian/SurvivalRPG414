@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour
 {
-    public Dictionary<int, Item> items;
+    public Dictionary<Item, int> items;
     public int capacity;
 
     public delegate void InventoryChangedEventHandler();
@@ -11,34 +11,51 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        items = new Dictionary<int, Item>(capacity);
+        items = new Dictionary<Item, int>(capacity);
     }
 
     public bool AddItem(Item item)
     {
-        if (items.Count >= capacity)
+        if (items.ContainsKey(item))
+        {
+            items[item]++;
+        }
+        else if (items.Count >= capacity)
         {
             return false;
         }
+        else
+        {
+            items.Add(item, 1);
+        }
 
-        items.Add(item.itemID, item);
         OnInventoryChanged?.Invoke();
         return true;
     }
 
-    public void RemoveItem(int itemID)
+    public void RemoveItem(Item item)
     {
-        items.Remove(itemID);
-        OnInventoryChanged?.Invoke();
+        if (items.ContainsKey(item))
+        {
+            if (items[item] > 1)
+            {
+                items[item]--;
+            }
+            else
+            {
+                items.Remove(item);
+            }
+
+            OnInventoryChanged?.Invoke();
+        }
     }
 
-    public int GetItemQuantity(int itemID)
+    public int GetItemQuantity(Item item)
     {
-        if (items.ContainsKey(itemID))
+        if (items.ContainsKey(item))
         {
-            return items[itemID].quantity;
+            return items[item];
         }
         return 0;
     }
-
 }

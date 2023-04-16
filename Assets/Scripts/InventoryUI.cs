@@ -1,13 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // Add this namespace
+using TMPro;
 
 public class InventoryUI : MonoBehaviour
 {
     public Inventory inventory;
-    public GameObject itemPrefab;
     public GameObject panel;
+    public TextMeshProUGUI uiText;
+
+    private void Start()
+    {
+        uiText = GetComponentInChildren<TextMeshProUGUI>();
+        uiText.text = "";
+    }
 
     private void OnEnable()
     {
@@ -21,29 +27,35 @@ public class InventoryUI : MonoBehaviour
 
     public void ToggleInventory()
     {
-        panel.SetActive(!panel.activeSelf);
+        bool isInventoryOpen = panel.activeSelf;
+        if (isInventoryOpen)
+        {
+            panel.SetActive(false);
+        }
+        else
+        {
+            panel.SetActive(true);
+            UpdateInventoryUI();
+        }
+
     }
 
     private void UpdateInventoryUI()
     {
-        // Clear previous UI elements
-        foreach (Transform child in panel.transform)
-        {
-            Destroy(child.gameObject);
-        }
+ 
 
-        // Populate the UI with items from the inventory
-        foreach (KeyValuePair<int, Item> entry in inventory.items)
-        {
-            int itemID = entry.Key;
-            Item item = entry.Value;
+            // Populate the UI with items from the inventory
+            foreach (KeyValuePair<Item, int> entry in inventory.items)
+            {
+                Item item = entry.Key;
+                int itemQuantity = entry.Value;
 
-            string itemName = item.itemName;
-            int itemQuantity = inventory.GetItemQuantity(itemID);
-
-            // Add the item information to the UI text
-            uiText.text += $"{itemName}: {itemQuantity}\n";
-        }
+                // Add the item information to the UI text
+                uiText.text += $"{item.itemName}: {itemQuantity}\n";
+                Debug.Log(itemQuantity);
+                Debug.Log(item.itemName);
+            }
+        
 
     }
 }

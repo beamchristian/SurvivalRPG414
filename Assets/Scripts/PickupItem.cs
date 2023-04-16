@@ -8,6 +8,9 @@ public class PickupItem : Interactable
     {
         // Get the Inventory component from the player and add the item
         Inventory inventory = FindObjectOfType<Inventory>();
+        Debug.Log("Found Inventory: " + (inventory != null));
+
+        // Add the item to the inventory
         inventory.AddItem(item);
 
         // Implement any other item pickup logic here
@@ -17,3 +20,4 @@ public class PickupItem : Interactable
         Destroy(gameObject);
     }
 }
+

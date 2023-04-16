@@ -9,12 +9,12 @@ public class InteractionSystem : MonoBehaviour
     private Camera _mainCamera;
 
     private Interactable _currentInteractable;
-    private InventoryInteract _currentInventoryInteract;
     public GameObject inventoryUI;
 
     private void Start()
     {
         _mainCamera = Camera.main;
+
     }
 
     private void Update()
@@ -80,14 +80,12 @@ public class InteractionSystem : MonoBehaviour
 
     private void HandleInventoryInteraction()
     {
-        if (_currentInteractable != null)
+        if (inventoryUI != null)
         {
-            _currentInventoryInteract.InventoryInteractCall();
+            InventoryUI inventoryUIComponent = inventoryUI.GetComponent<InventoryUI>();
+            inventoryUIComponent.ToggleInventory();
+                                        
         }
     }
 }
 
-public abstract class InventoryInteract : MonoBehaviour
-{
-    public abstract void InventoryInteractCall();
-}

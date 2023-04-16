@@ -15,6 +15,7 @@ namespace StarterAssets
         public bool sprint;
         public bool interact;
         public bool inventory;
+        public InventoryUI inventoryUI; // <--- add this line
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -32,6 +33,13 @@ namespace StarterAssets
             {
                 InteractPressed?.Invoke();
                 interact = false;
+            }
+
+
+            if (inventory)
+            {
+                InventoryPressed?.Invoke();
+                inventory = false;
             }
         }
 
@@ -63,7 +71,7 @@ namespace StarterAssets
         {
             InteractInput(value.isPressed);
         }
-        public void OnInventoryChanged(InputValue value)
+        public void OnInventory(InputValue value)
         {
             InventoryInput(value.isPressed);
         }
