@@ -62,6 +62,27 @@ public class NeedsSystem : MonoBehaviour
         fatigue = Mathf.Clamp(fatigue, 0f, 100f);
     }
 
+    public void AddHealth(float value)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + value, 0f, maxHealth);
+    }
+
+    public void AddHunger(float value)
+    {
+        hunger = Mathf.Clamp(hunger + value, 0f, 100f);
+    }
+
+    public void AddThirst(float value)
+    {
+        thirst = Mathf.Clamp(thirst + value, 0f, 100f);
+    }
+
+    public void AddFatigue(float value)
+    {
+        fatigue += value;
+        fatigue = Mathf.Clamp(fatigue, 0f, 100f);
+    }
+
     public void ApplyDamage(float damage)
     {
         currentHealth -= damage;

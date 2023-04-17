@@ -37,6 +37,11 @@ public class InteractionSystem : MonoBehaviour
 
     private void UpdateCurrentInteractable()
     {
+        // Unsubscribe from the previous interactable's OnInteracted event
+        if (_currentInteractable != null)
+        {
+            _currentInteractable.OnInteracted -= ClearInteractionText;
+        }
         RaycastHit hit;
         Ray ray = _mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
         int interactableLayerMask = LayerMask.GetMask("Interactable");
@@ -53,6 +58,9 @@ public class InteractionSystem : MonoBehaviour
                     _currentInteractable = interactable;
                     interactionText.text = _currentInteractable ? _currentInteractable.itemName + " [E]" : "";
                     interactionText.enabled = _currentInteractable != null;
+
+                    // Subscribe to the new interactable's OnInteracted event
+                    _currentInteractable.OnInteracted += ClearInteractionText;
                 }
             }
             else if (_currentInteractable != null)
@@ -68,6 +76,12 @@ public class InteractionSystem : MonoBehaviour
             interactionText.text = "";
             interactionText.enabled = false;
         }
+    }
+
+    private void ClearInteractionText()
+    {
+        interactionText.text = "";
+        interactionText.enabled = false;
     }
 
     private void HandleInteraction()

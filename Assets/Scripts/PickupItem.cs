@@ -3,6 +3,9 @@ using UnityEngine;
 public class PickupItem : Interactable
 {
     public Item item;
+    public enum PickupType { Health, Hunger, Thirst, Fatigue }
+    public PickupType pickupType;
+    public float pickupValue = 25f;
 
     public override void Interact()
     {
@@ -10,14 +13,36 @@ public class PickupItem : Interactable
         Inventory inventory = FindObjectOfType<Inventory>();
         Debug.Log("Found Inventory: " + (inventory != null));
 
+        // Get the NeedsSystem component from the player
+        NeedsSystem needsSystem = FindObjectOfType<NeedsSystem>();
+
+        // Check the pickup type and apply the effect
+        switch (pickupType)
+        {
+            case PickupType.Health:
+                needsSystem.AddHealth(pickupValue);
+                break;
+            case PickupType.Hunger:
+                needsSystem.AddHunger(pickupValue);
+                break;
+            case PickupType.Thirst:
+                needsSystem.AddThirst(pickupValue);
+                break;
+            case PickupType.Fatigue:
+                needsSystem.AddFatigue(pickupValue);
+                break;
+        }
+
         // Add the item to the inventory
         inventory.AddItem(item);
 
         // Implement any other item pickup logic here
         Debug.Log("Item picked up: " + item.itemName);
 
+        // Trigger the OnInteracted event before destroying the GameObject
+        TriggerInteracted();
+
         // Destroy the GameObject after the item is picked up
         Destroy(gameObject);
     }
 }
-
