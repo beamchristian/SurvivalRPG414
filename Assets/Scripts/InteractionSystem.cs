@@ -78,7 +78,7 @@ public class InteractionSystem : MonoBehaviour
         }
     }
 
-    private void ClearInteractionText()
+    public void ClearInteractionText()
     {
         interactionText.text = "";
         interactionText.enabled = false;

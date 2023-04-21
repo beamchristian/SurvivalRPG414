@@ -100,6 +100,15 @@ public class NeedsSystem : MonoBehaviour
         gameOverTimer = gameOverDelay;
     }
 
+    void PauseGame ()
+    {
+        Time.timeScale = 0;
+    }
+void ResumeGame ()
+    {
+        Time.timeScale = 1;
+    }
+
     void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

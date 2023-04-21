@@ -44,5 +44,12 @@ public class PickupItem : Interactable
 
         // Destroy the GameObject after the item is picked up
         Destroy(gameObject);
+
+        // Clear the interaction text after the item is picked up
+        InteractionSystem interactionSystem = FindObjectOfType<InteractionSystem>();
+        if (interactionSystem != null)
+        {
+            interactionSystem.ClearInteractionText();
+        }
     }
 }
