@@ -22,7 +22,7 @@ public class NeedsUI : MonoBehaviour
         float hunger = needsSystem.GetHunger();
         float thirst = needsSystem.GetThirst();
         float fatigue = needsSystem.GetFatigue();
-        float health = needsSystem.GetCurrentHealth();
+        float health = needsSystem.GetCurrentPlayerHealth();
         float maxHealth = needsSystem.GetMaxHealth();
 
         hungerBarFill.fillAmount = hunger / 100f;

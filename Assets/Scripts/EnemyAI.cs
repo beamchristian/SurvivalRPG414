@@ -17,10 +17,13 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float patrolThreshold = 2f;
     [SerializeField] private float attackStopDistance = 1.5f;
 
+    private NeedsSystem needs;
+
     private Animator animator;
     private State lastState;
     private float waitTimer;
     private NeedsSystem playerNeedsSystem;
+    private bool playerDead;
 
 
     [SerializeField] private List<Transform> patrolPoints;
@@ -40,12 +43,15 @@ public class EnemyAI : MonoBehaviour
 
         agent.speed = enemySpeed;
         attackTimer = timeBetweenAttacks;
+        playerDead = false;
+        needs = GetComponent<NeedsSystem>();
     }
 
 
     void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
 
         switch (currentState)
         {
@@ -113,11 +119,6 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
         animator.SetFloat("moveSpeed", agent.velocity.magnitude);
-
-        // Update the isAttacking parameter based on the current state
-        animator.SetBool("isAttacking", currentState == State.Attack);
-
-
     }
 
 
@@ -166,20 +167,21 @@ public class EnemyAI : MonoBehaviour
             agent.SetDestination(transform.position);
         }
 
-
-
         attackTimer += Time.deltaTime;
         if (attackTimer >= timeBetweenAttacks && distanceToPlayer <= attackDistance)
         {
             attackTimer = 0f;
-            animator.SetBool("isAttacking", true);
+            animator.SetTrigger("AttackTrigger"); // Trigger the attack animation
 
-            // Implement logic to deal damage to the player
-            Debug.Log("Enemy attacking!");
-            playerNeedsSystem.ApplyDamage(attackDamage);
         }
     }
 
+
+    public void ApplyDamageToPlayer()
+    {
+        Debug.Log("Enemy attacking!");
+        playerNeedsSystem.ApplyDamage(attackDamage);
+    }
 
 
     void Flee()
@@ -202,9 +204,4 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void OnAttackFinished()
-    {
-        agent.isStopped = false;
-        animator.SetBool("isAttacking", false);
-    }
 }

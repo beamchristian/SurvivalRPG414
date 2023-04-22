@@ -1,0 +1,252 @@
+fileFormatVersion: 2
+guid: fc01378c311142c4d85832bf6904ea0b
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'Spine' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: Arms_Combat_Knife(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: Arms_Combat_Knife(Clone)
+      position: {x: 0, y: 0.45757127, z: 0.14328629}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Shoulder_L
+      parentName: Armature
+      position: {x: -0.00033778584, y: 0.0012980951, z: -0.0007828015}
+      rotation: {x: 0.2859291, y: -0.108996615, z: 0.5922459, w: 0.7453919}
+      scale: {x: 1, y: 1.0000004, z: 0.99999994}
+    - name: Arms_L
+      parentName: Shoulder_L
+      position: {x: -2.0489097e-10, y: 0.0014000196, z: -1.3038516e-10}
+      rotation: {x: -0.37914276, y: -0.74917054, z: 0.45285046, w: 0.2998679}
+      scale: {x: 0.9999998, y: 1, z: 1}
+    - name: Forearms_L
+      parentName: Arms_L
+      position: {x: -5.494803e-10, y: 0.0018814293, z: -1.4901161e-10}
+      rotation: {x: 0.75257677, y: -0.05662705, z: -0.12236756, w: 0.6445524}
+      scale: {x: 1.0000001, y: 1.0000002, z: 0.99999976}
+    - name: Hand_L
+      parentName: Forearms_L
+      position: {x: 1.0710209e-10, y: 0.0033360915, z: -7.21775e-11}
+      rotation: {x: -0.4425105, y: 0.316216, z: -0.42563248, w: 0.7232074}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Finger_Indicator_1_L
+      parentName: Hand_L
+      position: {x: -0.00027222378, y: 0.0010731703, z: -0.000004653558}
+      rotation: {x: -0.06457327, y: -0.70901835, z: 0.04817924, w: 0.70057267}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.99999994}
+    - name: Finger_Indicator_2_L
+      parentName: Finger_Indicator_1_L
+      position: {x: -0.000020464398, y: 0.00036675192, z: -0.0000042787565}
+      rotation: {x: -0.015201229, y: -0.0031162582, z: 0.21274342, w: 0.97698486}
+      scale: {x: 1, y: 0.99999994, z: 0.9999999}
+    - name: Finger_Medium_1_L
+      parentName: Hand_L
+      position: {x: 0.00018716443, y: 0.0010817465, z: -0.000019402485}
+      rotation: {x: -0.10469091, y: -0.71249235, z: 0.087555766, w: 0.68827933}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Finger_Medium_2_L
+      parentName: Finger_Medium_1_L
+      position: {x: -0.000028523393, y: 0.00036609787, z: 0.000012161042}
+      rotation: {x: 0.011836388, y: -0.011497275, z: 0.32329285, w: 0.94615513}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1}
+    - name: Finger_Thumbs_1_L
+      parentName: Hand_L
+      position: {x: -0.00027377464, y: 0.00016743607, z: -0.000033684057}
+      rotation: {x: -0.4546762, y: 0.83775145, z: -0.24580894, w: -0.17612524}
+      scale: {x: 0.99999994, y: 1, z: 1.0000001}
+    - name: Finger_Thumbs_2_L
+      parentName: Finger_Thumbs_1_L
+      position: {x: -0.000019043526, y: 0.0003528995, z: 0.000007945337}
+      rotation: {x: -0.689821, y: -0.30901083, z: -0.50611675, w: 0.4153375}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.9999999}
+    - name: Finger_Thumbs_3_L
+      parentName: Finger_Thumbs_2_L
+      position: {x: -0.0000055709015, y: 0.0003479065, z: 0.000005081184}
+      rotation: {x: 0.048761584, y: -0.01999404, z: 0.057227097, w: 0.9969692}
+      scale: {x: 1, y: 1, z: 0.9999998}
+    - name: Control_Bone_L
+      parentName: Armature
+      position: {x: -0.0021366065, y: -0.0020191637, z: -0.000037883856}
+      rotation: {x: 0.0804366, y: 0.37975574, z: 0.5086016, w: 0.768531}
+      scale: {x: 1.0000036, y: 1.0000015, z: 1.0000038}
+    - name: Shoulder_R
+      parentName: Armature
+      position: {x: 0.00032998374, y: 0.0013303689, z: -0.00078007294}
+      rotation: {x: 0.3101323, y: 0.12686127, z: -0.6217493, w: 0.7079209}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: Arms_R
+      parentName: Shoulder_R
+      position: {x: -0, y: 0.001400019, z: 5.5879353e-11}
+      rotation: {x: -0.3970549, y: 0.7187896, z: -0.49959466, w: 0.2758517}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1}
+    - name: Forearms_R
+      parentName: Arms_R
+      position: {x: -3.7718564e-10, y: 0.0018814291, z: -1.862645e-10}
+      rotation: {x: 0.76030475, y: -0.106355354, z: 0.03463533, w: 0.6398638}
+      scale: {x: 0.9999998, y: 1.0000001, z: 0.9999997}
+    - name: Hand_R
+      parentName: Forearms_R
+      position: {x: 2.4680047e-10, y: 0.0033360906, z: 7.4505804e-11}
+      rotation: {x: -0.20252447, y: -0.3099142, z: 0.54758006, w: 0.7503953}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Finger_Indicator_1_R
+      parentName: Hand_R
+      position: {x: 0.00028235125, y: 0.0008996031, z: -0.00010845715}
+      rotation: {x: 0.23529175, y: -0.6276425, z: 0.71380013, w: -0.20295827}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Finger_Indicator_2_R
+      parentName: Finger_Indicator_1_R
+      position: {x: 0.00009075118, y: 0.0002640627, z: 0.00015071832}
+      rotation: {x: 0.29012367, y: -0.33097586, z: -0.5883523, w: 0.678325}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Finger_Medium_1_R
+      parentName: Hand_R
+      position: {x: -0.00011788938, y: 0.00090204657, z: -0.00008438129}
+      rotation: {x: 0.22480966, y: -0.64376533, z: 0.7023765, w: -0.2041914}
+      scale: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
+    - name: Finger_Medium_2_R
+      parentName: Finger_Medium_1_R
+      position: {x: 0.00010019991, y: 0.00028893884, z: 0.00015969001}
+      rotation: {x: 0.31171587, y: -0.31498006, z: -0.6375258, w: 0.6302235}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.9999999}
+    - name: Finger_Thumbs_1_R
+      parentName: Hand_R
+      position: {x: 0.00031098857, y: 0.00014196585, z: -0.000035115376}
+      rotation: {x: 0.27593383, y: 0.8028733, z: -0.43302846, w: -0.30288824}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: Finger_Thumbs_2_R
+      parentName: Finger_Thumbs_1_R
+      position: {x: -0.000012521235, y: 0.00036726604, z: -0.0000064384376}
+      rotation: {x: -0.79466254, y: 0.39484504, z: 0.179307, w: 0.42480344}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Finger_Thumbs_3_R
+      parentName: Finger_Thumbs_2_R
+      position: {x: 0.000064284024, y: 0.00035835095, z: 0.0000637684}
+      rotation: {x: 0.2797151, y: -0.021318154, z: -0.5692055, w: 0.7728584}
+      scale: {x: 0.9999999, y: 0.99999994, z: 1.0000001}
+    - name: Gun
+      parentName: Hand_R
+      position: {x: -0.00029998648, y: 0.00063594745, z: -0.00017442678}
+      rotation: {x: 0.6927433, y: 0.72080547, z: 0.0055046524, w: -0.022715824}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000004}
+    - name: Control_Bone_R
+      parentName: Armature
+      position: {x: 0.0020163541, y: -0.002130542, z: 0.00011494947}
+      rotation: {x: 0.28023487, y: 0.032802843, z: -0.5415314, w: 0.7919193}
+      scale: {x: 1.0000001, y: 1, z: 1}
+    - name: Arms_Mesh
+      parentName: Arms_Combat_Knife(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Knife
+      parentName: Arms_Combat_Knife(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.0048086876, y: 0.40422735, z: 0.75589806, w: 0.51497114}
+      scale: {x: 100, y: 100, z: 100}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

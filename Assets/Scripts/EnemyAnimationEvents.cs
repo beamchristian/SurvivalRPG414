@@ -7,13 +7,17 @@ public class EnemyAnimationEvents : MonoBehaviour
     private void Start()
     {
         enemyAI = GetComponentInParent<EnemyAI>();
+        if (enemyAI == null)
+        {
+            Debug.LogError("PlayerAttack script not found on the parent object.");
+        }
     }
 
-    public void OnAttackFinished()
+    public void TriggerPlayerDamage()
     {
         if (enemyAI != null)
         {
-            enemyAI.OnAttackFinished();
+            enemyAI.ApplyDamageToPlayer();
         }
     }
 }

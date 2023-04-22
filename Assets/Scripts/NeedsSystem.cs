@@ -17,7 +17,7 @@ public class NeedsSystem : MonoBehaviour
 
     [Header("Health")]
     [SerializeField] private float maxHealth = 100f;
-    [SerializeField] private float currentHealth;
+    private float currentPlayerHealth;
 
     public GameObject gameOverPanel;
 
@@ -28,7 +28,7 @@ public class NeedsSystem : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        currentPlayerHealth = maxHealth;
     }
 
     private void Update()
@@ -48,7 +48,15 @@ public class NeedsSystem : MonoBehaviour
 
     public bool IsDead()
     {
-        return currentHealth <= 0;
+        return currentPlayerHealth <= 0;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Car"))
+        {
+            HandleDeath();
+        }
     }
 
     private void DecreaseNeeds(float deltaTime)
@@ -64,7 +72,7 @@ public class NeedsSystem : MonoBehaviour
 
     public void AddHealth(float value)
     {
-        currentHealth = Mathf.Clamp(currentHealth + value, 0f, maxHealth);
+        currentPlayerHealth = Mathf.Clamp(currentPlayerHealth + value, 0f, maxHealth);
     }
 
     public void AddHunger(float value)
@@ -85,8 +93,8 @@ public class NeedsSystem : MonoBehaviour
 
     public void ApplyDamage(float damage)
     {
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        currentPlayerHealth -= damage;
+        currentPlayerHealth = Mathf.Clamp(currentPlayerHealth, 0f, maxHealth);
     }
 
     void HandleDeath()
@@ -100,19 +108,32 @@ public class NeedsSystem : MonoBehaviour
         gameOverTimer = gameOverDelay;
     }
 
-    void PauseGame ()
+/*    void PauseGame ()
     {
         Time.timeScale = 0;
     }
-void ResumeGame ()
+    void ResumeGame ()
     {
         Time.timeScale = 1;
-    }
+    }*/
 
     void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public void KnockbackPlayer(Vector3 attackerPosition, float knockbackForce)
+    {
+        // Assuming you have a CharacterController component on your player
+        CharacterController characterController = GetComponent<CharacterController>();
+
+        Vector3 knockbackDirection = (transform.position - attackerPosition).normalized;
+        Vector3 knockback = knockbackDirection * knockbackForce;
+
+        // Apply the knockback force to the player's character controller
+        characterController.SimpleMove(knockback);
+    }
+
 
     private void UpdateHealth()
     {
@@ -122,10 +143,10 @@ void ResumeGame ()
         if (thirst <= 0) healthDecrease++;
         if (fatigue <= 0) healthDecrease++;
 
-        currentHealth -= healthDecrease * Time.deltaTime;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        currentPlayerHealth -= healthDecrease * Time.deltaTime;
+        currentPlayerHealth = Mathf.Clamp(currentPlayerHealth, 0f, maxHealth);
 
-        if (currentHealth <= 0 && !isGameOver)
+        if (currentPlayerHealth <= 0 && !isGameOver)
         {
             HandleDeath();
         }
@@ -134,6 +155,6 @@ void ResumeGame ()
     public float GetHunger() { return hunger; }
     public float GetThirst() { return thirst; }
     public float GetFatigue() { return fatigue; }
-    public float GetCurrentHealth() { return currentHealth; }
+    public float GetCurrentPlayerHealth() { return currentPlayerHealth; }
     public float GetMaxHealth() { return maxHealth; }
 }
