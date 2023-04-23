@@ -374,7 +374,6 @@ MonoBehaviour:
   thirstDecayRate: 0.6
   fatigueDecayRate: 0.25
   maxHealth: 100
-  currentHealth: 0
   gameOverPanel: {fileID: 0}
 --- !u!114 &1639843537
 MonoBehaviour:

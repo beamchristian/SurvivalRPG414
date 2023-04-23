@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     public enum State { Idle, Patrol, Chase, Attack, Flee, Wait }
+    public enum MovementMode { Wander, Patrol }
 
     [SerializeField] private float waitTime = 2f;
     [SerializeField] private State currentState = State.Idle;
@@ -17,13 +18,15 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float patrolThreshold = 2f;
     [SerializeField] private float attackStopDistance = 1.5f;
 
-    private NeedsSystem needs;
+    [Header("Movement Mode")]
+    [SerializeField] private MovementMode currentMovementMode = MovementMode.Patrol;
+    [SerializeField] private float wanderRadius = 10f;
+
 
     private Animator animator;
     private State lastState;
     private float waitTimer;
     private NeedsSystem playerNeedsSystem;
-    private bool playerDead;
 
 
     [SerializeField] private List<Transform> patrolPoints;
@@ -43,8 +46,6 @@ public class EnemyAI : MonoBehaviour
 
         agent.speed = enemySpeed;
         attackTimer = timeBetweenAttacks;
-        playerDead = false;
-        needs = GetComponent<NeedsSystem>();
     }
 
 
@@ -110,13 +111,14 @@ public class EnemyAI : MonoBehaviour
                 }
                 else if (waitTimer >= waitTime)
                 {
-                    if (lastState == State.Patrol)
+                    if (lastState == State.Patrol && patrolPoints.Count > 0) // Added a condition to check if patrolPoints.Count is greater than 0
                     {
                         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Count;
                     }
                     currentState = lastState;
                 }
                 break;
+
         }
         animator.SetFloat("moveSpeed", agent.velocity.magnitude);
     }
@@ -125,16 +127,32 @@ public class EnemyAI : MonoBehaviour
 
     void Patrol()
     {
-        if (patrolPoints.Count == 0) return;
-
-        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
-
-        float distanceToPatrolPoint = Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position);
-        if (distanceToPatrolPoint <= patrolThreshold)
+        if (currentMovementMode == MovementMode.Patrol)
         {
-            lastState = currentState;
-            currentState = State.Wait;
-            waitTimer = 0f;
+            if (patrolPoints.Count == 0) return;
+
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+
+            float distanceToPatrolPoint = Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position);
+            if (distanceToPatrolPoint <= patrolThreshold)
+            {
+                lastState = currentState;
+                currentState = State.Wait;
+                waitTimer = 0f;
+            }
+        }
+        else if (currentMovementMode == MovementMode.Wander)
+        {
+            if (agent.remainingDistance < patrolThreshold)
+            {
+                Vector3 randomDirection = Random.insideUnitSphere * wanderRadius;
+                randomDirection += transform.position;
+                NavMeshHit navMeshHit;
+                if (NavMesh.SamplePosition(randomDirection, out navMeshHit, wanderRadius, NavMesh.AllAreas))
+                {
+                    agent.SetDestination(navMeshHit.position);
+                }
+            }
         }
     }
 
