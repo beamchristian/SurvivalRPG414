@@ -137,13 +137,31 @@ public class EnemyAI : MonoBehaviour
                 break;
 
         }
-        animator.SetFloat("moveSpeed", agent.velocity.magnitude);
+        if (currentState == State.Chase || currentState == State.Attack || currentState == State.Flee)
+        {
+            animator.SetFloat("moveSpeed", Mathf.Clamp(agent.velocity.magnitude, 0.6f, 1f));
+        }
+        else
+        {
+            animator.SetFloat("moveSpeed", Mathf.Clamp(agent.velocity.magnitude, 0f, 0.6f));
+        };
+
+        if (currentDisposition == Disposition.Friendly && currentMovementMode == MovementMode.Still)
+        {
+            animator.SetFloat("moveSpeed", 0f);
+        }
     }
 
 
 
     void Patrol()
     {
+        if (currentDisposition == Disposition.Friendly && currentMovementMode == MovementMode.Still)
+        {
+            agent.SetDestination(transform.position);
+            return;
+        }
+
         if (currentMovementMode == MovementMode.Patrol)
         {
             if (patrolPoints.Count == 0) return;
@@ -168,7 +186,7 @@ public class EnemyAI : MonoBehaviour
                 if (NavMesh.SamplePosition(randomDirection, out navMeshHit, wanderRadius, NavMesh.AllAreas))
                 {
                     agent.SetDestination(navMeshHit.position);
-                }    
+                }
             }
         }
         else if (currentMovementMode == MovementMode.Still)
@@ -220,14 +238,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-
-    public void ApplyDamageToPlayer()
-    {
-        Debug.Log("Enemy attacking!");
-        playerNeedsSystem.ApplyDamage(attackDamage);
-    }
-
-
     void Flee()
     {
         Vector3 directionToPlayer = transform.position - player.position;
@@ -246,6 +256,25 @@ public class EnemyAI : MonoBehaviour
             currentState = State.Wait;
             waitTimer = 0f;
         }
+    }
+
+    public void OnPlayerAttack()
+    {
+        if (currentDisposition == Disposition.Friendly)
+        {
+            currentDisposition = Disposition.Hostile;
+        }
+
+        if (currentState != State.Attack)
+        {
+            currentState = State.Attack;
+        }
+    }
+
+    public void ApplyDamageToPlayer()
+    {
+        Debug.Log("Enemy attacking!");
+        playerNeedsSystem.ApplyDamage(attackDamage);
     }
 
 }

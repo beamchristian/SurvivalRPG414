@@ -9,10 +9,13 @@ public class Enemy : MonoBehaviour
     private Animator animator;
     public bool isDead = false;
 
+    private EnemyAI enemyAI; // Add a reference to the EnemyAI component
+
     private void Start()
     {
         currentHealth = maxHealth;
         animator = GetComponentInChildren<Animator>();
+        enemyAI = GetComponent<EnemyAI>(); // Get the EnemyAI component
     }
 
     public void TakeDamage(float damage)
@@ -20,6 +23,8 @@ public class Enemy : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= damage;
+
+        enemyAI.OnPlayerAttack(); // Call the OnPlayerAttack method when the NPC takes damage
 
         if (currentHealth <= 0)
         {
