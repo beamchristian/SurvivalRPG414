@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 6043363588969096664, guid: de0618e397d796146ab4d8b4b62fcce1,
         type: 3}
       propertyPath: currentMovementMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6043363588969096664, guid: de0618e397d796146ab4d8b4b62fcce1,
         type: 3}
@@ -76,6 +76,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6043363588969096666, guid: de0618e397d796146ab4d8b4b62fcce1,
+        type: 3}
+      propertyPath: m_BaseOffset
+      value: -0.12
       objectReference: {fileID: 0}
     - target: {fileID: 6043363588969096669, guid: de0618e397d796146ab4d8b4b62fcce1,
         type: 3}

@@ -18,13 +18,23 @@ public class Enemy : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>(); // Get the EnemyAI component
     }
 
+    private void PlayGotHitAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("GotHit");
+        }
+    }
+
+
     public void TakeDamage(float damage)
     {
         if (isDead) return;
 
         currentHealth -= damage;
+        PlayGotHitAnimation(); // Add this line
 
-        enemyAI.OnPlayerAttack(); // Call the OnPlayerAttack method when the NPC takes damage
+        enemyAI.OnPlayerAttack();
 
         if (currentHealth <= 0)
         {

@@ -6,6 +6,9 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange = 2.0f;
     public LayerMask enemyLayer;
     public float attackDamage = 10f;
+    public float attackCooldown = 0.5f;
+    private float nextAttackTime;
+
     private Animator animator;
 
     private InputAction inputAction;
@@ -42,9 +45,15 @@ public class PlayerAttack : MonoBehaviour
 
     public void StartAttack()
     {
-        // Set a trigger instead of a bool
-        animator.SetTrigger("StartAttackingKnife");
-        Debug.Log("attacking");
+        if (Time.time >= nextAttackTime)
+        {
+            // Set a trigger instead of a bool
+            animator.SetTrigger("StartAttackingKnife");
+            Debug.Log("attacking");
+
+            // Update the nextAttackTime
+            nextAttackTime = Time.time + attackCooldown;
+        }
     }
 
 
