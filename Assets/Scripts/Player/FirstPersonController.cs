@@ -208,9 +208,6 @@ namespace StarterAssets
             float animationSpeed = _speed / SprintSpeed; // Normalize the speed value
 
             CharacterAnimator.SetFloat(SpeedParameterName, animationSpeed);
-
-            // Log the Speed value in the console
-            Debug.Log("Speed: " + animationSpeed);
         }
 
 		private void JumpAndGravity()

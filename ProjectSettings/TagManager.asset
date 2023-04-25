@@ -9,6 +9,7 @@ TagManager:
   - Car
   - Enemy
   - Agent
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Character
   - Ground
   - Car
-  - 
+  - Obstacle
   - 
   - 
   - 

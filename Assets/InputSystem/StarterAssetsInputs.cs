@@ -16,6 +16,7 @@ namespace StarterAssets
         public bool interact;
         public bool inventory;
         public InventoryUI inventoryUI; // <--- add this line
+        public bool buildMode; // <-- Add this line
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -26,6 +27,9 @@ namespace StarterAssets
 
         public static event Action InteractPressed;
         public static event Action InventoryPressed;
+        public static event Action BuildModePressed; // <-- Add this line
+        public float scroll;
+        public static event Action<float> ScrollWheelChanged;
 
         void Update()
         {
@@ -40,6 +44,13 @@ namespace StarterAssets
             {
                 InventoryPressed?.Invoke();
                 inventory = false;
+            }
+
+            if (buildMode)
+            {
+                Debug.Log("Build mode key pressed."); // Add this line
+                BuildModePressed?.Invoke();
+                buildMode = false;
             }
         }
 
@@ -75,6 +86,16 @@ namespace StarterAssets
         {
             InventoryInput(value.isPressed);
         }
+
+        public void OnBuildMode(InputValue value) // <-- Add this method
+        {
+            BuildModeInput(value.isPressed);
+        }
+
+        public void OnScrollWheel(InputValue value)
+        {
+            ScrollWheelInput(value.Get<float>());
+        }
 #endif
 
         public void MoveInput(Vector2 newMoveDirection)
@@ -107,6 +128,11 @@ namespace StarterAssets
             inventory = newInventoryState;
         }
 
+        public void BuildModeInput(bool newBuildModeState) // <-- Add this method
+        {
+            buildMode = newBuildModeState;
+        }
+
         private void OnApplicationFocus(bool hasFocus)
         {
             SetCursorState(cursorLocked);
@@ -116,6 +142,13 @@ namespace StarterAssets
         {
             Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
         }
+
+        public void ScrollWheelInput(float newScrollValue)
+        {
+            scroll = newScrollValue;
+            ScrollWheelChanged?.Invoke(scroll);
+        }
+
     }
 }
 
