@@ -1,11 +1,11 @@
 using UnityEngine;
 using StarterAssets;
+using System.Collections;
 
 public class CraftingSystem : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed = 100f;
 
-    public GameObject housePrefab;
     public LayerMask groundLayerMask;
     public LayerMask obstacleLayerMask;
     public Material validPlacementMaterial;
@@ -17,12 +17,40 @@ public class CraftingSystem : MonoBehaviour
     private bool placementMode;
     private bool canPlace;
 
+    public Item houseItem; // Reference to the house item from the inventory
+
+    private Inventory inventory;
+
     private void Start()
     {
         mainCamera = Camera.main;
         StarterAssetsInputs.BuildModePressed += TogglePlacementMode;
         StarterAssetsInputs.InteractPressed += PlaceObject;
         StarterAssetsInputs.ScrollWheelChanged += RotateObject;
+
+        inventory = FindObjectOfType<Inventory>();
+        if (inventory != null)
+        {
+            inventory.OnInventoryChanged += FindHouseItem;
+        }
+
+    }
+
+    private void FindHouseItem()
+    {
+        if (inventory == null || houseItem != null)
+        {
+            return;
+        }
+
+        foreach (Item item in inventory.items.Keys)
+        {
+            if (item.itemType == Item.ItemType.Crafting)
+            {
+                houseItem = item;
+                break;
+            }
+        }
     }
 
     private void OnDestroy()
@@ -69,9 +97,15 @@ public class CraftingSystem : MonoBehaviour
 
     private void EnterPlacementMode()
     {
+        if (houseItem == null)
+        {
+            Debug.Log("No house item available in the inventory.");
+            return;
+        }
+
         placementMode = true;
 
-        currentOutline = Instantiate(housePrefab);
+        currentOutline = Instantiate(houseItem.prefab);
         currentOutline.name = "Preview Object";
         currentOutlineRenderers = currentOutline.GetComponentsInChildren<MeshRenderer>();
         SetOutlineMaterials(validPlacementMaterial);
@@ -142,10 +176,17 @@ public class CraftingSystem : MonoBehaviour
         if (placementMode && canPlace)
         {
             Debug.Log("Placing");
-            GameObject newHouse = Instantiate(housePrefab, currentOutline.transform.position, currentOutline.transform.rotation);
+            GameObject newHouse = Instantiate(houseItem.prefab, currentOutline.transform.position, currentOutline.transform.rotation);
             ExitPlacementMode();
+
+            // Remove the item from the inventory
+            inventory.RemoveItem(houseItem);
+
+            // Set houseItem to null
+            houseItem = null;
         }
     }
+
 
     private void SetOutlineMaterials(Material material)
     {

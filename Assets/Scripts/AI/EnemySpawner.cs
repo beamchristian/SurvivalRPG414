@@ -39,8 +39,11 @@ public class EnemySpawner : MonoBehaviour
         newEnemy.tag = "Enemy";
 
         // Disable the enemy AI script temporarily
-        EnemyAI enemyAI = newEnemy.GetComponent<EnemyAI>();
-        enemyAI.enabled = false;
+        if (newEnemy.TryGetComponent<EnemyAI>(out var enemyAI)) 
+        {
+            enemyAI.enabled = false;
+        }
+        
 
         // Enable the enemy AI script after a short delay
         StartCoroutine(EnableEnemyAI(enemyAI, enemyActivationDelay));
@@ -49,7 +52,10 @@ public class EnemySpawner : MonoBehaviour
     private IEnumerator EnableEnemyAI(EnemyAI enemyAI, float delay)
     {
         yield return new WaitForSeconds(delay);
-        enemyAI.enabled = true;
+        if (enemyAI != null)
+        {
+            enemyAI.enabled = true;
+        }
     }
 
     private void OnDrawGizmosSelected()

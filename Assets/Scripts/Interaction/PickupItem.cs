@@ -3,7 +3,7 @@ using UnityEngine;
 public class PickupItem : Interactable
 {
     public Item item;
-    public enum PickupType { Health, Hunger, Thirst, Fatigue }
+    public enum PickupType { Health, Hunger, Thirst, Fatigue, Crafting }
     public PickupType pickupType;
     public float pickupValue = 25f;
 
@@ -31,10 +31,11 @@ public class PickupItem : Interactable
             case PickupType.Fatigue:
                 needsSystem.AddFatigue(pickupValue);
                 break;
+            case PickupType.Crafting:
+                // Add the item to the inventory
+                inventory.AddItem(item);
+                break;
         }
-
-        // Add the item to the inventory
-        inventory.AddItem(item);
 
         // Implement any other item pickup logic here
         Debug.Log("Item picked up: " + item.itemName);
