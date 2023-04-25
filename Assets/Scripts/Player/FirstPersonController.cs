@@ -51,8 +51,15 @@ namespace StarterAssets
 		[Tooltip("How far in degrees can you move the camera down")]
 		public float BottomClamp = -90.0f;
 
-		// cinemachine
-		private float _cinemachineTargetPitch;
+        [Header("Animation")]
+        [Tooltip("The Animator component on the character")]
+        public Animator CharacterAnimator;
+        [Tooltip("The name of the Speed parameter in the Animator")]
+        public string SpeedParameterName = "Speed";
+
+
+        // cinemachine
+        private float _cinemachineTargetPitch;
 
 		// player
 		private float _speed;
@@ -196,7 +203,15 @@ namespace StarterAssets
 
 			// move the player
 			_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-		}
+
+            // Update the Speed parameter in the Animator based on whether the player is running or not
+            float animationSpeed = _speed / SprintSpeed; // Normalize the speed value
+
+            CharacterAnimator.SetFloat(SpeedParameterName, animationSpeed);
+
+            // Log the Speed value in the console
+            Debug.Log("Speed: " + animationSpeed);
+        }
 
 		private void JumpAndGravity()
 		{

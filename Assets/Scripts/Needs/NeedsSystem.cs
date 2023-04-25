@@ -15,6 +15,8 @@ public class NeedsSystem : MonoBehaviour
     [SerializeField] private float thirstDecayRate = 1f;
     [SerializeField] private float fatigueDecayRate = 1f;
 
+
+
     [Header("Health")]
     [SerializeField] private float maxHealth = 100f;
     private float currentPlayerHealth;
@@ -24,6 +26,7 @@ public class NeedsSystem : MonoBehaviour
     private float gameOverDelay = 3f;
     private float gameOverTimer;
     private bool isGameOver = false;
+    private Vector3 knockbackDirection;
 
 
     private void Start()
@@ -124,14 +127,14 @@ public class NeedsSystem : MonoBehaviour
 
     public void KnockbackPlayer(Vector3 attackerPosition, float knockbackForce)
     {
+        Debug.Log("Knockback Called");
         // Assuming you have a CharacterController component on your player
         CharacterController characterController = GetComponent<CharacterController>();
-
         Vector3 knockbackDirection = (transform.position - attackerPosition).normalized;
         Vector3 knockback = knockbackDirection * knockbackForce;
 
         // Apply the knockback force to the player's character controller
-        characterController.SimpleMove(knockback);
+       characterController.SimpleMove(knockback);
     }
 
 

@@ -3,19 +3,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public float attackRange = 2.0f;
-    public LayerMask enemyLayer;
-    public float attackDamage = 10f;
-    public float attackCooldown = 0.5f;
-    private float nextAttackTime;
+    [SerializeField] private float attackRange = 2.0f;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private float attackDamage = 10f;
+    [SerializeField] private float attackCooldown = 0.5f;
 
     private Animator animator;
-
+    private float nextAttackTime;
     private InputAction inputAction;
+    private Transform cachedTransform;
 
     private void Awake()
     {
         inputAction = new InputAction("Attack", binding: "<Mouse>/leftButton");
+        cachedTransform = transform;
     }
 
     private void Start()
@@ -64,9 +65,9 @@ public class PlayerAttack : MonoBehaviour
         {
             if (enemyCollider.TryGetComponent<Enemy>(out var enemy))
             {
-                enemy.TakeDamage(attackDamage);
+                enemy.TakeDamage(attackDamage, cachedTransform.position); // Modify this line
                 Debug.Log("Hitting" + " " + enemy.name + " " + "for " + " " + attackDamage + " " + "damage.");
-                Debug.Log("Enemy Health: " + enemy.currentHealth);
+                Debug.Log("Enemy Health: " + enemy.CurrentHealth);
             }
         }
     }

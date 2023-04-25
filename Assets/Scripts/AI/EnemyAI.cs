@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float enemySpeed = 3.5f;
     [SerializeField] private float patrolThreshold = 2f;
     [SerializeField] private float attackStopDistance = 1.5f;
+    [SerializeField] private float knockbackForce = 10f; // Add this line
 
     [Header("Movement Mode")]
     [SerializeField] private MovementMode currentMovementMode = MovementMode.Patrol;
@@ -60,7 +61,7 @@ public class EnemyAI : MonoBehaviour
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (enemy.isDead)
+        if (enemy.IsDead)
         {
             agent.isStopped = true;
             return;
@@ -275,6 +276,7 @@ public class EnemyAI : MonoBehaviour
     {
         Debug.Log("Enemy attacking!");
         playerNeedsSystem.ApplyDamage(attackDamage);
+        playerNeedsSystem.KnockbackPlayer(transform.position, knockbackForce);
     }
 
 }

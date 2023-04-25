@@ -3,19 +3,28 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float maxHealth = 100f;
-    public float currentHealth;
+    [SerializeField] private float maxHealth = 100f;
+
+
+    public float CurrentHealth { get; private set; }
 
     private Animator animator;
-    public bool isDead = false;
-
-    private EnemyAI enemyAI; // Add a reference to the EnemyAI component
+    public bool IsDead { get; private set; }
+    private EnemyAI enemyAI;
+    public NeedsSystem playerNeedsSystem; // Add this line
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        CurrentHealth = maxHealth;
         animator = GetComponentInChildren<Animator>();
         enemyAI = GetComponent<EnemyAI>(); // Get the EnemyAI component
+
+
+        GameObject player = GameObject.FindWithTag("Player"); // Add this line
+        if (player != null) // Add this line
+        {
+            playerNeedsSystem = player.GetComponent<NeedsSystem>(); // Add this line
+        }
     }
 
     private void PlayGotHitAnimation()
@@ -27,16 +36,17 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 attackerPosition)
     {
-        if (isDead) return;
+        if (IsDead) return;
 
-        currentHealth -= damage;
+        CurrentHealth -= damage;
         PlayGotHitAnimation(); // Add this line
 
         enemyAI.OnPlayerAttack();
 
-        if (currentHealth <= 0)
+
+        if (CurrentHealth <= 0)
         {
             Die();
         }
@@ -44,7 +54,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        isDead = true;
+        IsDead = true;
         animator.SetTrigger("Death");
         StartCoroutine(DestroyAfterDelay(5f));
     }
